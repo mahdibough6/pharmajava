@@ -15,6 +15,7 @@ CREATE TABLE commandes(
     status_comm ENUM('PANIER', 'ENCOURS', 'VALIDER','REFUSER'),
     id_util INT NOT NULL, 
     date_comm DATE,
+    prix_comm DOUBLE,
     PRIMARY KEY(id_comm),
     FOREIGN KEY (id_util) REFERENCES utilisateurs(id_util)
 ); 
