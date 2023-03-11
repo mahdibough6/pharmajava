@@ -1,0 +1,57 @@
+CREATE TABLE utilisateurs(
+    id_util INT AUTO_INCREMENT NOT NULL,
+    nom_util VARCHAR(255),
+    prenom_util VARCHAR(255),
+    email_util VARCHAR(255),
+    pwd_util VARCHAR(255),
+    date_naiss_util DATE,
+    adresse_util VARCHAR(255),
+    tele_util VARCHAR(255),
+    PRIMARY KEY(id_util)
+); 
+
+CREATE TABLE commandes(
+    id_comm INT AUTO_INCREMENT NOT NULL,
+    status_comm ENUM('PANIER', 'ENCOURS', 'VALIDER','REFUSER'),
+    id_util INT NOT NULL, 
+    date_comm DATE,
+    PRIMARY KEY(id_comm),
+    FOREIGN KEY (id_util) REFERENCES utilisateurs(id_util)
+); 
+
+CREATE TABLE ordonnances(
+    id_ord INT AUTO_INCREMENT NOT NULL,
+    fichier_ord VARCHAR(255),
+    id_comm INT,
+    PRIMARY KEY(id_ord),
+    FOREIGN KEY (id_comm) REFERENCES commandes(id_comm)
+); 
+
+CREATE TABLE medicaments(
+    id_med INT AUTO_INCREMENT NOT NULL,
+    image_med VARCHAR(255),
+    titre_med VARCHAR(255),
+    desc_med VARCHAR(255),
+    prix_med DOUBLE,
+    status_ord_med BOOLEAN DEFAULT FALSE,
+    status_med BOOLEAN DEFAULT TRUE,
+    PRIMARY KEY(id_med)
+); 
+CREATE TABLE instances_med(
+    id_instance_med INT AUTO_INCREMENT NOT NULL,  
+    date_exp_med DATE,
+    date_prod_med DATE,
+    qte_stock_med INT,
+    id_med INT,
+    PRIMARY KEY(id_instance_med),
+    FOREIGN KEY (id_med ) REFERENCES medicaments(id_med )
+); 
+CREATE TABLE med_comm(
+    id_med_comm INT AUTO_INCREMENT NOT NULL,
+    id_comm INT NOT NULL,
+    qte_comm INT,
+    id_instance_med INT,
+    PRIMARY KEY(id_med_comm),
+    FOREIGN KEY (id_comm) REFERENCES commandes(id_comm),
+    FOREIGN KEY (id_instance_med) REFERENCES instances_med(id_instance_med)
+);
